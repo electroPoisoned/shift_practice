@@ -1,11 +1,15 @@
 package com.example.demo.service;
 
+import com.example.demo.SubscribeType;
 import com.example.demo.model.Subscribe;
-import org.springframework.stereotype.Service;
+
 
 public interface SubscribeService {
 
-    Subscribe subscribe(String chanel);
+    Subscribe subscribe(String chanel, int userID);
 
     Subscribe unsubscribe(String chanel);
+
+    SubscribeType getSubscribeType();
+
 }
