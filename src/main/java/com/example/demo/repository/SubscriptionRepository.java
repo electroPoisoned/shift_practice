@@ -24,7 +24,7 @@ public class SubscriptionRepository {
     }
 
     public void save(Subscription subscription) {
-        subscriptions.put(UUID.randomUUID().toString(), subscription);
+        subscriptions.put(subscription.getSubscriptionId(), subscription);
     }
 
     public void deleteById(String subscriptionId) {
