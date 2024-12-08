@@ -10,16 +10,16 @@ import java.util.Map;
 @Service
 public class SubscribeResolver {
 
-    private final Map<SubscribeType, SubscribeService> subscribeServiceMap = new HashMap<>();
+    private final Map<PlatformType, SubscribeService> subscribeServiceMap = new HashMap<>();
 
     public SubscribeResolver(List<SubscribeService> subscribeServices) {
         for (SubscribeService subscribeService : subscribeServices) {
-            subscribeServiceMap.put(subscribeService.getSubscribeType() ,subscribeService);
+            subscribeServiceMap.put(subscribeService.getPlatformType() ,subscribeService);
         }
     }
 
-    public SubscribeService getSubscribeService(SubscribeType subscribeType) {
-        return subscribeServiceMap.get(subscribeType);
+    public SubscribeService getSubscribeService(PlatformType platformType) {
+        return subscribeServiceMap.get(platformType);
     }
 
 }

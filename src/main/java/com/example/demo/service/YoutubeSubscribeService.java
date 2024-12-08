@@ -1,34 +1,68 @@
 package com.example.demo.service;
 
-import com.example.demo.SubscribeType;
-import com.example.demo.model.Subscribe;
+import com.example.demo.PlatformType;
+import com.example.demo.model.Channel;
+import com.example.demo.model.Subscription;
+import com.example.demo.model.User;
+import com.example.demo.repository.ChannelRepository;
+import com.example.demo.repository.SubscriptionRepository;
+import com.example.demo.repository.UserRepository;
+import com.example.demo.repository.SubscriptionRecord;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
-public class YoutubeSubscribeService implements SubscribeService{
+public class YoutubeSubscribeService implements SubscribeService {
 
-    @Override
-    public Subscribe subscribe(String chanel, int id) {
-        Subscribe subscribe = new Subscribe();
+    private final UserRepository userRepository;
+    private final ChannelRepository channelRepository;
+    private final SubscriptionRepository subscriptionRepository;
 
-        subscribe.setSubscribed(true);
-        subscribe.setChanel(chanel);
-
-        return subscribe;
+    public YoutubeSubscribeService(UserRepository userRepository, ChannelRepository channelRepository, SubscriptionRepository subscriptionRepository) {
+        this.userRepository = userRepository;
+        this.channelRepository = channelRepository;
+        this.subscriptionRepository = subscriptionRepository;
     }
 
     @Override
-    public Subscribe unsubscribe(String chanel) {
-        Subscribe subscribe = new Subscribe();
+    public Subscription subscribe(SubscriptionRecord record) {
+        Optional<User> optUser = userRepository.findById(record.userId());
+        User user = optUser.orElseThrow(() -> new RuntimeException("User not found"));
 
-        subscribe.setSubscribed(false);
-        subscribe.setChanel(chanel);
+        Optional<Channel> optChannel = channelRepository.findById(record.channelId());
+        Channel channel = optChannel.orElseThrow(() -> new RuntimeException("Channel not found"));
 
-        return subscribe;
+        Subscription subscription = new Subscription(record.channelId(), record.userId(), getPlatformType());
+        subscriptionRepository.save(subscription);
+
+        user.addSubscription(channel);
+        channel.addSubscriber(user);
+
+        return subscription;
     }
 
     @Override
-    public SubscribeType getSubscribeType() {
-        return SubscribeType.YT;
+    public Subscription unsubscribe(SubscriptionRecord record) {
+        Optional<User> optUser = userRepository.findById(record.userId());
+        User user = optUser.orElseThrow(() -> new RuntimeException("User not found"));
+
+        Optional<Channel> optChannel = channelRepository.findById(record.channelId());
+        Channel channel = optChannel.orElseThrow(() -> new RuntimeException("Channel not found"));
+
+        user.removeSubscription(channel);
+        channel.removeSubscriber(user);
+
+        Optional<Subscription> optSubscription = subscriptionRepository.findByUserIdAndChannelId(record.userId(), record.channelId());
+        Subscription subscription = optSubscription.orElseThrow(() -> new RuntimeException("Subscription not found"));
+
+        subscriptionRepository.deleteById(subscription.getSubscriptionId());
+
+        return subscription;
+    }
+
+    @Override
+    public PlatformType getPlatformType() {
+        return PlatformType.YT;
     }
 }

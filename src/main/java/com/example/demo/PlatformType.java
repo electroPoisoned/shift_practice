@@ -1,6 +1,6 @@
 package com.example.demo;
 
-public enum SubscribeType {
+public enum PlatformType {
 
     TG,
     YT

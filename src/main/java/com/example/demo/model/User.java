@@ -2,17 +2,28 @@ package com.example.demo.model;
 
 import lombok.Data;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.UUID;
 
 @Data
 public class User {
 
-    private String name;
-    private List<Subscribe> subscribes =  new ArrayList<>();
-    private int id;
+    private String userId;
+    private String userName;
+    private Set<Channel> subscriptions =  new HashSet<>();
 
-    public void addSubscribe(Subscribe subscribe) {
-        subscribes.add(subscribe);
+    public User(String userName) {
+        this.userId = UUID.randomUUID().toString();
+        this.userName = userName;
     }
+
+    public void addSubscription(Channel channel) {
+        subscriptions.add(channel);
+    }
+
+    public void removeSubscription(Channel channel) {
+        subscriptions.remove(channel);
+    }
+
 }

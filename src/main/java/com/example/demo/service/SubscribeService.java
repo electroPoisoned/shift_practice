@@ -1,15 +1,16 @@
 package com.example.demo.service;
 
-import com.example.demo.SubscribeType;
-import com.example.demo.model.Subscribe;
+import com.example.demo.PlatformType;
+import com.example.demo.model.Subscription;
+import com.example.demo.repository.SubscriptionRecord;
 
 
 public interface SubscribeService {
 
-    Subscribe subscribe(String chanel, int userID);
+    Subscription subscribe(SubscriptionRecord subscriptionRecord);
 
-    Subscribe unsubscribe(String chanel);
+    Subscription unsubscribe(SubscriptionRecord subscriptionRecord);
 
-    SubscribeType getSubscribeType();
+    PlatformType getPlatformType();
 
 }
