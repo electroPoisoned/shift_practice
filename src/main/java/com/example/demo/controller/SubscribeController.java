@@ -7,7 +7,7 @@ import com.example.demo.service.SubscribeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/users")//change uri???
+@RequestMapping("/sub")
 public class SubscribeController {
 
     private final SubscribeResolver subscribeResolver;

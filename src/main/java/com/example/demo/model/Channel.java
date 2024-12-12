@@ -9,12 +9,12 @@ import java.util.UUID;
 @Data
 public class Channel {
 
-    private String channelId;
+    private String id;
     private String channelName;
     Set<User> subscribers = new HashSet<>();
 
     public Channel(String channelName) {
-        this.channelId = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.channelName = channelName;
     }
 

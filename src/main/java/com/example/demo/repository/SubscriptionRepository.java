@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
@@ -24,7 +23,7 @@ public class SubscriptionRepository {
     }
 
     public void save(Subscription subscription) {
-        subscriptions.put(subscription.getSubscriptionId(), subscription);
+        subscriptions.put(subscription.getId(), subscription);
     }
 
     public void deleteById(String subscriptionId) {

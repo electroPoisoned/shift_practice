@@ -1,5 +1,6 @@
 package com.example.demo.repository;
 
+import com.example.demo.exceptions.custom.UserNotFoundException;
 import com.example.demo.model.Channel;
 import com.example.demo.model.User;
 import org.springframework.stereotype.Repository;
@@ -24,7 +25,7 @@ public class UserRepository {
     }
 
     public void save(User user) {
-        users.put(user.getUserId(), user);
+        users.put(user.getId(), user);
     }
 
     public void deleteById(String userId) {
@@ -34,7 +35,7 @@ public class UserRepository {
     public void addSubscription(String userId, Channel channel) {
         User user = users.get(userId);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException("User with id: " + userId + " not found.");
         }
         user.getSubscriptions().add(channel);
     }

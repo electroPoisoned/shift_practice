@@ -16,7 +16,7 @@ public class ChannelRepository {
 
     public Optional<Channel> findById(String channelId) {
         return channels.values().stream()
-                .filter(channel -> channel.getChannelId().equals(channelId))
+                .filter(channel -> channel.getId().equals(channelId))
                 .findFirst();
     }
 
@@ -25,11 +25,11 @@ public class ChannelRepository {
     }
 
     public void save(Channel channel) {
-        channels.put(channel.getChannelId(), channel);
+        channels.put(channel.getId(), channel);
     }
 
     public void deleteById(String channelId) {
-        channels.entrySet().removeIf(entry -> entry.getValue().getChannelId().equals(channelId));
+        channels.entrySet().removeIf(entry -> entry.getValue().getId().equals(channelId));
     }
 
     public void addSubscriber(String channelId, User user) {
