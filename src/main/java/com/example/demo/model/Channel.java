@@ -10,12 +10,12 @@ import java.util.UUID;
 public class Channel {
 
     private String id;
-    private String channelName;
+    private String name;
     Set<User> subscribers = new HashSet<>();
 
-    public Channel(String channelName) {
+    public Channel(String name) {
         this.id = UUID.randomUUID().toString();
-        this.channelName = channelName;
+        this.name = name;
     }
 
     public void addSubscriber(User user) {

@@ -7,7 +7,7 @@ import com.example.demo.service.SubscribeService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/sub")
+@RequestMapping("/subscriptions")
 public class SubscribeController {
 
     private final SubscribeResolver subscribeResolver;

@@ -3,6 +3,7 @@ package com.example.demo.repository;
 import com.example.demo.exceptions.custom.UserNotFoundException;
 import com.example.demo.model.Channel;
 import com.example.demo.model.User;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -24,12 +25,13 @@ public class UserRepository {
         return new ArrayList<>(users.values());
     }
 
-    public void save(User user) {
+    public User save(User user) {
         users.put(user.getId(), user);
+        return user;
     }
 
-    public void deleteById(String userId) {
-        users.remove(userId);
+    public User deleteById(String userId) {
+        return users.remove(userId);
     }
 
     public void addSubscription(String userId, Channel channel) {
@@ -43,7 +45,7 @@ public class UserRepository {
     public void removeSubscription(String userId, Channel channel) {
         User user = users.get(userId);
         if (user == null) {
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException("User with id: " + userId + " not found.");
         }
         user.getSubscriptions().remove(channel);
     }

@@ -24,26 +24,26 @@ public class ChannelRepository {
         return new ArrayList<>(channels.values());
     }
 
-    public void save(Channel channel) {
-        channels.put(channel.getId(), channel);
+    public Channel save(Channel channel) {
+        return channels.put(channel.getId(), channel);
     }
 
-    public void deleteById(String channelId) {
-        channels.entrySet().removeIf(entry -> entry.getValue().getId().equals(channelId));
+    public Boolean deleteById(String channelId) {
+        return channels.entrySet().removeIf(entry -> entry.getValue().getId().equals(channelId));
     }
 
-    public void addSubscriber(String channelId, User user) {
+    public void addSubscriber(String channelId, User user) throws ClassNotFoundException {
         Channel channel = channels.get(channelId);
         if (channel == null) {
-            throw new RuntimeException("Channel not found");
+            throw new ClassNotFoundException("Channel with id " + channelId + " not found");
         }
         channel.getSubscribers().add(user);
     }
 
-    public void removeSubscriber(String channelId, User user) {
+    public void removeSubscriber(String channelId, User user) throws ClassNotFoundException {
         Channel channel = channels.get(channelId);
         if (channel == null) {
-            throw new RuntimeException("Channel not found");
+            throw new ClassNotFoundException("Channel with id " + channelId + " not found");
         }
         channel.getSubscribers().remove(user);
     }
